@@ -377,6 +377,13 @@ void AudioSystem::releaseAudioSessionId(int audioSession) {
     }
 }
 
+status_t AudioSystem::setFmVolume(float value)
+{
+    const sp<IAudioFlinger>& af = AudioSystem::get_audio_flinger();
+    if (af == 0) return PERMISSION_DENIED;
+    return af->setFmVolume(value);
+}
+
 #ifdef STE_HARDWARE
 int AudioSystem::registerLatencyNotificationClient(latency_update_callback cb, void *cookie) {
     Mutex::Autolock _l(gLatencyLock);
@@ -394,6 +401,7 @@ void AudioSystem::unregisterLatencyNotificationClient(int clientId) {
     Mutex::Autolock _l(gLatencyLock);
     gLatencyNotificationClients.removeItem(clientId);
 }
+
 // ---------------------------------------------------------------------------
 #endif
 
@@ -625,6 +633,7 @@ audio_io_handle_t AudioSystem::getOutput(audio_stream_type_t stream,
     // to the first use case we want to cover (Voice Recognition and Voice Dialer over
     // Bluetooth SCO
     if ((flags & AUDIO_POLICY_OUTPUT_FLAG_DIRECT) == 0 &&
+        (stream != AUDIO_STREAM_FM) &&
         ((stream != AUDIO_STREAM_VOICE_CALL && stream != AUDIO_STREAM_BLUETOOTH_SCO) ||
          channels != AUDIO_CHANNEL_OUT_MONO ||
          (samplingRate != 8000 && samplingRate != 16000))) {
@@ -932,10 +941,12 @@ extern "C" bool _ZN7android11AudioSystem17isSeparatedStreamE19audio_stream_type_
 
 #endif // USE_SAMSUNG_SEPARATEDSTREAM
 
+
 extern "C" bool _ZN7android11AudioSystem10stopOutputEiNS0_11stream_typeEi(audio_io_handle_t output, audio_stream_type_t stream, int session)
 {
     return AudioSystem::stopOutput(output, stream, session);
 }
+
 
 }; // namespace android
 

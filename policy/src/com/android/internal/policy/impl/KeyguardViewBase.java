@@ -218,6 +218,13 @@ public abstract class KeyguardViewBase extends FrameLayout {
                         if (mAudioManager.isMusicActive()) {
                             if (keyCode == KeyEvent.KEYCODE_VOLUME_MUTE) {
                                 mAudioManager.toggleMute(AudioManager.STREAM_MUSIC);
+                            } else if (mAudioManager.isFMActive()) {
+                                mAudioManager.adjustStreamVolume(
+                                            AudioManager.STREAM_FM,
+                                            keyCode == KeyEvent.KEYCODE_VOLUME_UP
+                                                    ? AudioManager.ADJUST_RAISE
+                                                    : AudioManager.ADJUST_LOWER,
+                                            0);
                             } else {
                                 mAudioManager.adjustStreamVolume(
                                             AudioManager.STREAM_MUSIC,

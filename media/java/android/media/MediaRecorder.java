@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2007 The Android Open Source Project
+ * Copyright (c) 2012, Code Aurora Forum. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -175,9 +176,12 @@ public class MediaRecorder
          *  is applied.
          */
         public static final int VOICE_COMMUNICATION = 7;
+
         /** FM Radio Rx audio source */
-        /**@hide */
-        public static final int FM_RADIO_RX = 8;
+        /** @hide */
+        public static final int FM_RX = 8;
+        /** @hide */
+        public static final int FM_RX_A2DP = 9;
     }
 
     /**
@@ -744,7 +748,9 @@ public class MediaRecorder
         native_reset();
 
         // make sure none of the listeners get called anymore
-        mEventHandler.removeCallbacksAndMessages(null);
+        if (mEventHandler != null) {
+            mEventHandler.removeCallbacksAndMessages(null);
+        }
     }
 
     private native void native_reset();

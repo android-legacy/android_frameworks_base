@@ -168,7 +168,7 @@ public class AudioManager {
     public static final int STREAM_DTMF = AudioSystem.STREAM_DTMF;
     /** @hide The audio stream for text to speech (TTS) */
     public static final int STREAM_TTS = AudioSystem.STREAM_TTS;
-    /** @hide The audio stream for legacy FM radio */
+    /** @hide The audio stream for FM Radio (FM) */
     public static final int STREAM_FM = AudioSystem.STREAM_FM;
 
     /** Number of audio streams */
@@ -190,7 +190,7 @@ public class AudioManager {
         7,  // STREAM_SYSTEM_ENFORCED
         11, // STREAM_DTMF
         11, // STREAM_TTS
-        11, // STREAM_FM
+        11  // STREAM_FM
     };
 
     /**
@@ -1299,6 +1299,16 @@ public class AudioManager {
         return -1;
     }
 
+     /**
+      * Checks whether FM stream is active.
+      *
+      * @return true if FM is active.
+      * @hide
+      */
+    public boolean isFMActive() {
+        return AudioSystem.isStreamActive(STREAM_FM, 0);
+    }
+
     /**
      * Checks whether any music is active.
      *
@@ -2043,6 +2053,7 @@ public class AudioManager {
      *  used in the future in a set method to select whatever default device is chosen by the
      *  platform-specific implementation.
      */
+    /** @hide **/
     public static final int DEVICE_OUT_DEFAULT = AudioSystem.DEVICE_OUT_DEFAULT;
 
     /**

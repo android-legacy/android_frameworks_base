@@ -32,6 +32,9 @@ const char *AudioParameter::keyInputSource = "input_source";
 #ifdef STE_HARDWARE
 const char *AudioParameter::keyLatency = "latency";
 #endif
+#ifdef QCOM_FM_ENABLED
+const char *AudioParameter::keyHandleFm = "handle_fm";
+#endif
 
 AudioParameter::AudioParameter(const String8& keyValuePairs)
 {

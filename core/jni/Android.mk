@@ -156,7 +156,7 @@ LOCAL_SRC_FILES:= \
 	android_app_backup_FullBackup.cpp \
 	android_content_res_ObbScanner.cpp \
 	android_content_res_Configuration.cpp \
-        android_animation_PropertyValuesHolder.cpp
+    android_animation_PropertyValuesHolder.cpp
 
 ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
 	LOCAL_SRC_FILES += org_codeaurora_Performance.cpp
@@ -189,7 +189,18 @@ LOCAL_C_INCLUDES += \
 	external/harfbuzz/src \
 	external/zlib \
 	frameworks/opt/emoji \
-	libcore/include
+	libcore/include \
+	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
+
+LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
+
+LOCAL_CFLAGS += -include bionic/libc/kernel/arch-arm/asm/posix_types.h
+LOCAL_CFLAGS += -include bionic/libc/kernel/arch-arm/asm/byteorder.h
+LOCAL_CFLAGS += -include bionic/libc/kernel/common/linux/posix_types.h
+LOCAL_CFLAGS += -include bionic/libc/kernel/common/linux/types.h
+LOCAL_CFLAGS += -include bionic/libc/kernel/common/linux/socket.h
+LOCAL_CFLAGS += -include bionic/libc/kernel/common/linux/in.h
+
 
 LOCAL_SHARED_LIBRARIES := \
 	libexpat \

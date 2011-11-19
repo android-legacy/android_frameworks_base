@@ -203,6 +203,8 @@ public:
 #ifdef STE_AUDIO
     virtual size_t readInput(uint32_t *input, uint32_t inputClientId, void *buffer, uint32_t bytes, uint32_t *pOverwrittenBytes) = 0;
 #endif
+    virtual status_t setFmVolume(float volume) = 0;
+
 };
 
 

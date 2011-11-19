@@ -85,6 +85,10 @@ ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
 	LOCAL_C_INCLUDES += $(TOP)/hardware/qcom/display/libqcomui
 endif
 
+ifeq ($(BOARD_HAVE_QCOM_FM),true)
+        LOCAL_SRC_FILES += FMA2DPWriter.cpp
+endif
+
 ifeq ($(TARGET_USES_QCOM_LPA),true)
 ifeq ($(BOARD_USES_ALSA_AUDIO),true)
 	LOCAL_SRC_FILES += LPAPlayerALSA.cpp

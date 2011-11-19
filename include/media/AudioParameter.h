@@ -49,6 +49,9 @@ public:
 #ifdef STE_HARDWARE
     static const char *keyLatency;
 #endif
+#ifdef QCOM_FM_ENABLED
+    static const char *keyHandleFm;
+#endif
 
     String8 toString();
 
