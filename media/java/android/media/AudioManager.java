@@ -250,6 +250,8 @@ public class AudioManager {
     public static final int STREAM_TTS = AudioSystem.STREAM_TTS;
     /** @hide The audio stream for incall music delivery */
     public static final int STREAM_INCALL_MUSIC = AudioSystem.STREAM_INCALL_MUSIC;
+    /** @hide The audio stream for FM Radio (FM) */
+    public static final int STREAM_FM = AudioSystem.STREAM_FM;
     /** Number of audio streams */
     /**
      * @deprecated Use AudioSystem.getNumStreamTypes() instead
@@ -269,7 +271,8 @@ public class AudioManager {
         7,  // STREAM_SYSTEM_ENFORCED
         11, // STREAM_DTMF
         11, // STREAM_TTS
-        4   // STREAM_INCALL_MUSIC
+        4,  // STREAM_INCALL_MUSIC
+        11  // STREAM_FM
     };
 
     /**
@@ -1605,6 +1608,16 @@ public class AudioManager {
         return -1;
     }
 
+     /**
+      * Checks whether FM stream is active.
+      *
+      * @return true if FM is active.
+      * @hide
+      */
+    public boolean isFMActive() {
+        return AudioSystem.isStreamActive(STREAM_FM, 0);
+    }
+
     /**
      * Checks whether any music is active.
      *
@@ -1665,7 +1678,7 @@ public class AudioManager {
      * Note: only AudioManager.STREAM_MUSIC is supported at the moment
      */
     public void adjustLocalOrRemoteStreamVolume(int streamType, int direction) {
-        if (streamType != STREAM_MUSIC) {
+        if (streamType != STREAM_MUSIC && streamType != STREAM_FM) {
             Log.w(TAG, "adjustLocalOrRemoteStreamVolume() doesn't support stream " + streamType);
         }
         IAudioService service = getService();
