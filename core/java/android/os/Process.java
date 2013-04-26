@@ -105,6 +105,12 @@ public class Process {
      */
     public static final int VPN_UID = 1016;
 
+     /**
+     * Defines the UID/GID for the FM process.
+     * @hide
+     */
+    public static final int FM_RADIO_UID = 1037;
+
     /**
      * Defines the UID/GID for the NFC service process.
      * @hide
