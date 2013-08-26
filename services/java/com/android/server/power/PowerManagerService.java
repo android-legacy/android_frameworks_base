@@ -1381,7 +1381,7 @@ public final class PowerManagerService extends IPowerManager.Stub
                                 : mDisplayPowerRequest.screenBrightness;
                         mKeyboardLight.setBrightness(mKeyboardVisible ? brightness : 0);
                         if (now > mLastUserActivityTime + BUTTON_ON_DURATION) {
-                            mButtonsLight.setBrightness(0);
+                            // do nothing
                         } else {
                             mButtonsLight.setBrightness(brightness);
                             if (brightness != 0) {
@@ -1392,6 +1392,7 @@ public final class PowerManagerService extends IPowerManager.Stub
                     } else {
                         nextTimeout = mLastUserActivityTime + screenOffTimeout;
                         if (now < nextTimeout) {
+                            mButtonsLight.setBrightness(0);
                             mKeyboardLight.setBrightness(0);
                             mUserActivitySummary |= USER_ACTIVITY_SCREEN_DIM;
                         }
