@@ -3,6 +3,7 @@
  * Not a Contribution.
  *
  * Copyright (C) 2006 The Android Open Source Project
+ * Copyright (c) 2013, The Linux Foundation. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,13 +58,15 @@ public class AudioSystem
     public static final int STREAM_TTS = 9;
     /* @hide The audio stream for incall music delivery */
     public static final int STREAM_INCALL_MUSIC = 10;
+    /* @hide The audio stream for FM */
+    public static final int STREAM_FM = 11;
     /**
      * @deprecated Use {@link #numStreamTypes() instead}
      */
     public static final int NUM_STREAMS = 5;
 
     // Expose only the getter method publicly so we can change it in the future
-    private static final int NUM_STREAM_TYPES = 10;
+    private static final int NUM_STREAM_TYPES = 12;
     public static final int getNumStreamTypes() { return NUM_STREAM_TYPES; }
 
     /*
