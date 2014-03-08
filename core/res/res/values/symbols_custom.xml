@@ -89,6 +89,9 @@
     <java-symbol type="id" name="ribbon_label" />
     <java-symbol type="id" name="ribbon_icon" />
 
+    <!-- Wi-Fi AP Notification -->
+    <java-symbol type="string" name="notify_turn_tethering_off_title" />
+
   <!--  Animations -->
   <java-symbol type="string" name="animation_fade"/>
   <java-symbol type="string" name="animation_slide_left"/>
@@ -132,4 +135,7 @@
   <java-symbol type="anim" name="slide_in_up_ribbon" />
   <java-symbol type="anim" name="slide_out_down_ribbon" />
   <java-symbol type="anim" name="no_animation" />
+
+  <!-- WiFi turn off notification -->
+  <java-symbol type="string" name="notify_turn_wifi_off_title" />
 </resources>

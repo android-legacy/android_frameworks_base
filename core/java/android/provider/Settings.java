@@ -7134,6 +7134,21 @@ public final class Settings {
         public static final String NAVIGATION_BAR_BUTTONS = "navigation_bar_buttons";
 
         /**
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_HEIGHT = "navigation_bar_height";
+
+        /**
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_HEIGHT_LANDSCAPE = "navigation_bar_height_landscape";
+
+        /**
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_WIDTH = "navigation_bar_width";
+
+        /**
          * Whether volume up/down can be long pressed to skip tracks
          * @hide
          */
@@ -7235,6 +7250,12 @@ public final class Settings {
          * @hide
          */
         public static final String BATTERY_CHARGING_LED_ENABLED = "battery_charging_led_enabled";
+
+        /**
+         * Enable / disable navring
+         * @hide
+         */
+        public static final String ENABLE_NAVRING = "enable_navring";
 
     }
 
