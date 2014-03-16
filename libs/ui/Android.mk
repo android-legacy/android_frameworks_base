@@ -21,9 +21,12 @@ commonSources:= \
 	Keyboard.cpp \
 	KeyLayoutMap.cpp \
 	KeyCharacterMap.cpp \
-	VirtualKeyMap.cpp \
-        Overlay.cpp
+        VirtualKeyMap.cpp
 
+ifeq ($(BOARD_USES_LEGACY_OVERLAY),true)
+commonSources+= \
+        Overlay.cpp
+endif
 # For the host
 # =====================================================
 
