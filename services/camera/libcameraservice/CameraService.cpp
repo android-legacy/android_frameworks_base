@@ -983,7 +983,9 @@ bool CameraService::Client::lockIfMessageWanted(int32_t msgType) {
         }
         usleep(CHECK_MESSAGE_INTERVAL * 1000);
     }
+#ifndef CAMERA_NO_UNWANTED_MSG
     LOGW("lockIfMessageWanted(%d): dropped unwanted message", msgType);
+#endif
     return false;
 }
 
@@ -1118,9 +1120,7 @@ void CameraService::Client::handleShutter(void) {
         c->notifyCallback(CAMERA_MSG_SHUTTER, 0, 0);
         if (!lockIfMessageWanted(CAMERA_MSG_SHUTTER)) return;
     }
-#ifndef SAMSUNG_CAMERA_QCOM
     disableMsgType(CAMERA_MSG_SHUTTER);
-#endif
 
     mLock.unlock();
 }
