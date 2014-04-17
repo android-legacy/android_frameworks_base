@@ -2820,6 +2820,42 @@ public final class Settings {
         public static final String ACTIVE_DISPLAY_DOUBLE_TAP = "active_display_double_tap";
 
         /**
+         * shake device to show/hide active display.
+         * @hide
+         */
+        public static final String ACTIVE_DISPLAY_SHAKE_EVENT = "active_display_shake_event";
+
+        /**
+         * force shake device to show active display.
+         * @hide
+         */
+        public static final String ACTIVE_DISPLAY_SHAKE_FORCE = "active_display_shake_force";
+
+        /**
+         * shake device to show/hide active display.
+         * @hide
+         */
+        public static final String ACTIVE_DISPLAY_SHAKE_QUITE_HOURS = "active_display_shake_quiet_hours";
+
+        /**
+         * shake threshold active display.
+         * @hide
+         */
+        public static final String ACTIVE_DISPLAY_SHAKE_THRESHOLD = "active_display_shake_threshold";
+
+        /**
+         * shake timeout active display.
+         * @hide
+         */
+        public static final String ACTIVE_DISPLAY_SHAKE_TIMEOUT = "active_display_shake_timeout";
+
+        /**
+         * shake between interval active display.
+         * @hide
+         */
+        public static final String ACTIVE_DISPLAY_SHAKE_LONGTHRESHOLD = "active_display_shake_long_threshold";
+
+        /**
          * Screen-On Notification Light
          * 0 - disable, default
          * 1 - enable
@@ -3514,6 +3550,13 @@ public final class Settings {
          * @hide
          */
         public static final String FORCE_SHOW_OVERFLOW_MENU = "force_show_overflow_menu";
+
+        /**
+         * Enable handlign of oppo input event for camera flip (F1)
+         * and start camera app
+         * @hide
+         */
+        public static final String OPPO_CAMERA_FLIP_ENABLED = "oppo_camera_flip_enable";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
