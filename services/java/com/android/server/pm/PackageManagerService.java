@@ -3663,15 +3663,23 @@ public class PackageManagerService extends IPackageManager.Stub {
 
     private boolean createIdmapsForPackageLI(PackageParser.Package pkg) {
         HashMap<String, PackageParser.Package> overlays = mOverlays.get(pkg.packageName);
+        final String pkgName = pkg.packageName;
         if (overlays == null) {
-            Log.w(TAG, "Unable to create idmap for " + pkg.packageName + ": no overlay packages");
+            Log.w(TAG, "Unable to create idmap for " + pkgName + ": no overlay packages");
             return false;
         }
         for (PackageParser.Package opkg : overlays.values()) {
             for(String overlayTarget : opkg.mOverlayTargets) {
-                if (overlayTarget.equals(pkg.packageName)) {
-                    if (!createIdmapForPackagePairLI(pkg, opkg, "")) {
-                        return false;
+                if (overlayTarget.equals(pkgName)) {
+                    try {
+                        if (opkg.mIsLegacyThemeApk) {
+                            generateIdmapForLegacyTheme(pkgName, opkg);
+                        } else {
+                            generateIdmap(pkgName, opkg);
+                        }
+                    } catch (IOException e) {
+                        Log.w(TAG, "Unable to create idmap for " + pkgName
+                                + ": no overlay packages", e);
                     }
                 }
             }
@@ -5383,13 +5391,13 @@ public class PackageManagerService extends IPackageManager.Stub {
 
             // Generate Idmaps and res tables if pkg is a theme
             for(String target : pkg.mOverlayTargets) {
+                insertIntoOverlayMap(target, pkg);
                 if (!shouldCreateIdmap(mPackages.get(target), pkg)) {
                     continue;
                 }
                 if (pkg.mIsLegacyThemeApk) {
                     if (target != null) {
                         try {
-                            insertIntoOverlayMap(target, pkg);
                             generateIdmapForLegacyTheme(target, pkg);
                         } catch (Exception e) {
                             mLastScanError = PackageManager.INSTALL_FAILED_INTERNAL_ERROR;
@@ -5411,9 +5419,9 @@ public class PackageManagerService extends IPackageManager.Stub {
                     }
                     ThemeUtils.createResourcesDirIfNotExists(target, pkg.applicationInfo.publicSourceDir);
                     compileResources(target, pkg);
-                    insertIntoOverlayMap(target, pkg);
                     generateIdmap(target, pkg);
                 } catch(Exception e) {
+                    Log.w(TAG, "Unable to process theme " + pkgName, e);
                     mLastScanError = PackageManager.INSTALL_FAILED_INTERNAL_ERROR;
                     uninstallThemeForAllApps(pkg);
                     return null;
@@ -5491,12 +5499,10 @@ public class PackageManagerService extends IPackageManager.Stub {
     private boolean hasCommonResources(PackageParser.Package pkg) throws Exception {
         boolean ret = false;
         // check if assets/overlays/common exists in this theme
-        Context themeContext = mContext.createPackageContext(pkg.packageName, 0);
-        if (themeContext != null) {
-            AssetManager assets = themeContext.getAssets();
-            String[] common = assets.list("overlays/common");
-            if (common != null && common.length > 0) ret = true;
-        }
+        AssetManager assets = new AssetManager();
+        assets.addAssetPath(pkg.mScanPath);
+        String[] common = assets.list("overlays/common");
+        if (common != null && common.length > 0) ret = true;
 
         return ret;
     }
@@ -9960,6 +9966,8 @@ public class PackageManagerService extends IPackageManager.Stub {
 
         synchronized (mInstallLock) {
             if (DEBUG_REMOVE) Slog.d(TAG, "deletePackageX: pkg=" + packageName + " user=" + userId);
+            sendPackageBroadcast(Intent.ACTION_PACKAGE_BEING_REMOVED, packageName, null,
+                    null, null, null, null);
             res = deletePackageLI(packageName,
                     (flags & PackageManager.DELETE_ALL_USERS) != 0
                             ? UserHandle.ALL : new UserHandle(userId),
@@ -12289,7 +12297,6 @@ public class PackageManagerService extends IPackageManager.Stub {
 
     @Override
     public void updateIconMapping(String pkgName) {
-        SystemProperties.set("sys.refresh_theme", "1");
         mContext.enforceCallingOrSelfPermission(
                 android.Manifest.permission.CHANGE_CONFIGURATION,
                 "could not update icon mapping because caller does not have change config permission");
